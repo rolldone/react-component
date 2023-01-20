@@ -21,7 +21,7 @@ interface PropsInterface {
   name?: string
 }
 
-export default class SelectDate extends React.Component<PropsInterface, StateInterface>{
+export default class SelectDayPicker extends React.Component<PropsInterface, StateInterface>{
   constructor(props: any) {
     super(props);
     this.state = {
