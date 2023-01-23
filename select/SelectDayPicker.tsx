@@ -25,7 +25,7 @@ export default class SelectDayPicker extends React.Component<PropsInterface, Sta
   constructor(props: any) {
     super(props);
     this.state = {
-      selected: undefined
+      selected: this.props.value || undefined
     }
   }
   componentDidUpdate(prevProps: Readonly<PropsInterface>, prevState: Readonly<StateInterface>, snapshot?: any): void {

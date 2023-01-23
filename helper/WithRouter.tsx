@@ -1,10 +1,11 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { NavigateFunction, useParams } from 'react-router-dom';
 
 interface propsInterface {
   [key: string]: any
   component: React.ComponentClass<any>
 }
+
 
 const WithRouter = (props: propsInterface) => {
   const params = useParams();

@@ -12,7 +12,7 @@ interface PropsInterface {
   }>
 }
 
-interface StateInterface {
+export interface TableStateInterface {
   showForm: boolean,
   datas: Array<any>,
   query: any
@@ -22,12 +22,19 @@ interface StateInterface {
   }>
 }
 
-interface PropsInterface {
+export interface TablePropsInterface {
   showForm?: boolean
   onChange?: { (e: any): void }
+  query?: any
 }
 
-export default class Table extends React.Component<PropsInterface, StateInterface>{
+export default class Table<P = {}, S = {}> extends React.Component {
+  setState<K extends never>(state: TableStateInterface | ((prevState: Readonly<{}>, props: Readonly<{}>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void {
+    return super.setState(state, callback);
+  }
+  declare state: Readonly<TableStateInterface>;
+  declare props: Readonly<TablePropsInterface>;
+  
   pendingGet?: DebouncedFunc<any> | null = null;
   constructor(props: any) {
     super(props);
@@ -35,19 +42,24 @@ export default class Table extends React.Component<PropsInterface, StateInterfac
       showForm: this.props.showForm || false,
       datas: [],
       columns: [],
-      query: {}
+      query: this.props.query || {}
     }
   }
-  renderRowItem(index:number, field: string, value: string, DefaultRender: React.ReactNode) {
+  renderRowItem(index: number, field: string, value: string, DefaultRender: React.ReactNode) {
     switch (field) {
       default:
         return DefaultRender;
     }
   }
-  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<StateInterface>, snapshot?: any): void {
+  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<TableStateInterface>, snapshot?: any): void {
     if (this.props.showForm != prevProps.showForm) {
       this.setState({
         showForm: this.props.showForm || false
+      })
+    }
+    if (this.props.query != prevProps.query) {
+      this.setState({
+        query: this.props.query
       })
     }
   }
@@ -88,7 +100,7 @@ export default class Table extends React.Component<PropsInterface, StateInterfac
             this.pendingGet.cancel();
           }
           this.pendingGet = debounce((query: any) => {
-            console.log("Query :: ",query);
+            console.log("Query :: ", query);
           }, 1000)
           this.pendingGet(this.state.query);
 
@@ -156,7 +168,7 @@ export default class Table extends React.Component<PropsInterface, StateInterfac
                           {(() => {
                             let _arr = [];
                             for (let b = 0; b < columns.length; b++) {
-                              _arr.push(<td key={"column-ytytyt-" + a + '-' + b} className="text-muted">{this.renderRowItem(a,columns[b].name, datas[a], datas[a][columns[b].field])}</td>);
+                              _arr.push(<td key={"column-ytytyt-" + a + '-' + b} className="text-muted">{this.renderRowItem(a, columns[b].name, datas[a], datas[a][columns[b].field])}</td>);
                             }
                             return _arr;
                           })()}
