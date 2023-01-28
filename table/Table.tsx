@@ -45,8 +45,8 @@ export default class Table<P = {}, S = {}> extends React.Component {
       query: this.props.query || {}
     }
   }
-  renderRowItem(index: number, field: string, value: string, DefaultRender: React.ReactNode) {
-    switch (field) {
+  renderRowItem(index: number, name: string, value: string, DefaultRender: React.ReactNode) {
+    switch (name) {
       default:
         return DefaultRender;
     }
