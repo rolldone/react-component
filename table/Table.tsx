@@ -1,5 +1,6 @@
 import { debounce, DebouncedFunc } from "lodash";
 import React from "react";
+import MakeId from "../helper/MakeId";
 
 interface PropsInterface {
   search_filter_datas?: Array<{
@@ -34,7 +35,7 @@ export default class Table<P = {}, S = {}> extends React.Component {
   }
   declare state: Readonly<TableStateInterface>;
   declare props: Readonly<TablePropsInterface>;
-  
+
   pendingGet?: DebouncedFunc<any> | null = null;
   constructor(props: any) {
     super(props);
@@ -46,6 +47,12 @@ export default class Table<P = {}, S = {}> extends React.Component {
     }
   }
   renderRowItem(index: number, name: string, props: any, DefaultRender: React.ReactNode) {
+    switch (name) {
+      default:
+        return DefaultRender;
+    }
+  }
+  renderHeadItem(index: number, name: string, props: any, DefaultRender: React.ReactNode) {
     switch (name) {
       default:
         return DefaultRender;
@@ -110,6 +117,7 @@ export default class Table<P = {}, S = {}> extends React.Component {
   }
 
   render(): React.ReactNode {
+    let randomString = MakeId(10);
     let { showForm, datas, columns } = this.state;
     let filter = <>
       {showForm == true ? (
@@ -153,7 +161,7 @@ export default class Table<P = {}, S = {}> extends React.Component {
                     {(() => {
                       let _arr = [];
                       for (let a = 0; a < columns.length; a++) {
-                        _arr.push(<th key={"column-asas-" + a}>{columns[a].name}</th>);
+                        _arr.push(<th key={`column-${randomString}-` + a}>{this.renderHeadItem(a, columns[a].name, datas[a], columns[a].name)}</th>);
                       }
                       return _arr;
                     })()}
@@ -164,11 +172,11 @@ export default class Table<P = {}, S = {}> extends React.Component {
                     let _arr = [];
                     for (let a = 0; a < datas.length; a++) {
                       _arr.push(
-                        <tr key={"column-ytytyt-" + a} >
+                        <tr key={`row-${randomString}-${a}`} >
                           {(() => {
                             let _arr = [];
                             for (let b = 0; b < columns.length; b++) {
-                              _arr.push(<td key={"column-ytytyt-" + a + '-' + b} className="text-muted">{this.renderRowItem(a, columns[b].name, datas[a], datas[a][columns[b].field])}</td>);
+                              _arr.push(<td key={`td-${randomString}-${a}-${b}`} className="text-muted">{this.renderRowItem(a, columns[b].name, datas[a], datas[a][columns[b].field])}</td>);
                             }
                             return _arr;
                           })()}
