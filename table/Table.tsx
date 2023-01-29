@@ -73,7 +73,7 @@ export default class Table<P = {}, S = {}> extends React.Component {
   }
   renderSearch(): React.ReactNode {
     return <>
-      <form>
+      <div>
         <div className="mb-3">
           <label className="form-label required">Search</label>
           <div>
@@ -89,7 +89,7 @@ export default class Table<P = {}, S = {}> extends React.Component {
             </small>
           </div>
         </div>
-      </form>
+      </div>
     </>
   }
 
