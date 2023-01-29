@@ -20,6 +20,7 @@ export interface TableStateInterface {
   columns: Array<{
     name: string
     field: string
+    className?: string
   }>
 }
 
@@ -81,7 +82,7 @@ export default class Table<P = {}, S = {}> extends React.Component {
               name="search"
               className="form-control"
               aria-describedby="emailHelp"
-              onChange={this.handleChange.bind(this, 'FORM_DATA', {})}
+              onChange={this.handleChange.bind(this, 'FORM_QUERY', {})}
             />
             <small className="form-hint">
               Search data with your text clue.
@@ -95,7 +96,7 @@ export default class Table<P = {}, S = {}> extends React.Component {
   handleChange(action: string, props?: any, e?: any) {
     let _query = this.state.query
     switch (action) {
-      case 'FORM_DATA':
+      case 'FORM_QUERY':
         _query = {
           ..._query,
           [e.target.name]: e.target.value
@@ -161,7 +162,7 @@ export default class Table<P = {}, S = {}> extends React.Component {
                     {(() => {
                       let _arr = [];
                       for (let a = 0; a < columns.length; a++) {
-                        _arr.push(<th key={`column-${randomString}-` + a}>{this.renderHeadItem(a, columns[a].name, datas[a], columns[a].name)}</th>);
+                        _arr.push(<th key={`column-${randomString}-` + a} className={`${columns[a].className}`}>{this.renderHeadItem(a, columns[a].name, datas[a], columns[a].name)}</th>);
                       }
                       return _arr;
                     })()}
