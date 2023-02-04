@@ -2,18 +2,7 @@ import { debounce, DebouncedFunc } from "lodash";
 import React from "react";
 import MakeId from "../helper/MakeId";
 
-interface PropsInterface {
-  search_filter_datas?: Array<{
-    name: string
-    key: string
-  }>
-  query_filter_datas?: Array<{
-    name: string
-    key: string
-  }>
-}
-
-export interface TableStateInterface {
+export type TableState = {
   showForm: boolean,
   datas: Array<any>,
   query: any
@@ -24,17 +13,17 @@ export interface TableStateInterface {
   }>
 }
 
-export interface TablePropsInterface {
+export type TablePropsInterface = {
   showForm?: boolean
   onChange?: { (e: any): void }
   query?: any
 }
 
-export default class Table<P = {}, S = {}> extends React.Component {
-  setState<K extends never>(state: TableStateInterface | ((prevState: Readonly<{}>, props: Readonly<{}>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void {
+export default class Table extends React.Component {
+  setState<K extends never>(state: TableState | ((prevState: Readonly<{}>, props: Readonly<{}>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void {
     return super.setState(state, callback);
   }
-  declare state: Readonly<TableStateInterface>;
+  declare state: Readonly<TableState>;
   declare props: Readonly<TablePropsInterface>;
 
   pendingGet?: DebouncedFunc<any> | null = null;
@@ -59,7 +48,7 @@ export default class Table<P = {}, S = {}> extends React.Component {
         return DefaultRender;
     }
   }
-  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<TableStateInterface>, snapshot?: any): void {
+  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<TableState>, snapshot?: any): void {
     if (this.props.showForm != prevProps.showForm) {
       this.setState({
         showForm: this.props.showForm || false
@@ -155,7 +144,7 @@ export default class Table<P = {}, S = {}> extends React.Component {
         <div className="col-12">
           {filter}
           <div className="card">
-            <div className="table-responsive">
+            <div className="table-responsive" style={{ "minHeight": "400px" }}>
               <table className="table table-vcenter card-table">
                 <thead>
                   <tr>
