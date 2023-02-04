@@ -52,6 +52,7 @@ export default class SelectDayPicker extends React.Component<PropsInterface, Sta
     return <>
       <DayPicker
         mode="single"
+        defaultMonth={this.state.selected}
         selected={this.state.selected}
         onSelect={this.handleChange.bind(this, 'SELECT', {})}
         footer={<p className='m-2'>You picked {format(this.state.selected || new Date(), 'PP')}.</p>}
