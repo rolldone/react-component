@@ -1,4 +1,4 @@
-import { debounce, DebouncedFunc } from "lodash";
+import { debounce, DebouncedFunc, isEqual } from "lodash";
 import React from "react";
 import MakeId from "../helper/MakeId";
 
@@ -54,7 +54,7 @@ export default class Table extends React.Component {
         showForm: this.props.showForm || false
       })
     }
-    if (this.props.query != prevProps.query) {
+    if (isEqual(this.props.query, prevProps.query) == false) {
       this.setState({
         query: this.props.query
       })
@@ -100,7 +100,6 @@ export default class Table extends React.Component {
             console.log("Query :: ", query);
           }, 1000)
           this.pendingGet(this.state.query);
-
         })
         break;
     }
