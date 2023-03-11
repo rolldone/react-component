@@ -4,11 +4,13 @@ import './BasicModal.scss';
 
 export type BasicModalState = {
   showModal: boolean
+  titleModal: String
 }
 
 export type BasicModalProps = {
   showModal?: boolean
   children?: ReactNode
+  titleModal?: String
 }
 
 class BasicModal extends BaseComponent {
@@ -23,6 +25,7 @@ class BasicModal extends BaseComponent {
     super(props);
     this.state = {
       showModal: false,
+      titleModal: ''
     };
   }
 
