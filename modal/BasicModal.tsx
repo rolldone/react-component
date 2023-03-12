@@ -1,5 +1,4 @@
-import { Component, ReactNode } from "react";
-import BaseComponent, { BaseComponentProps, BaseComponentState } from "../../layout/BaseComponent";
+import React, { Component, ReactNode } from "react";
 import './BasicModal.scss';
 
 export type BasicModalState = {
@@ -13,7 +12,7 @@ export type BasicModalProps = {
   titleModal?: String
 }
 
-class BasicModal extends BaseComponent {
+class BasicModal extends React.Component {
 
   setState<K extends never>(state: BasicModalState | ((prevState: Readonly<BasicModalState>, props: Readonly<{}>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void {
     super.setState(state, callback);
