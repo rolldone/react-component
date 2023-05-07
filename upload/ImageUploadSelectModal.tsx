@@ -53,32 +53,51 @@ export default class ImageUploadSelectModal extends BasicModal {
     switch (action) {
       case 'SUBMIT':
         e.preventDefault();
-        if (this.cropper_comp == null) {
-          return
-        };
-        const cropper = this.cropper_comp.cropper as Cropper;
-        if (cropper == null) {
-          return;
-        };
-        if (typeof cropper.getCroppedCanvas() === 'undefined') {
-          return;
+        if (this.state.form_data.type?.startsWith("image")) {
+          if (this.cropper_comp == null) {
+            return
+          };
+          const cropper = this.cropper_comp.cropper as Cropper;
+          if (cropper == null) {
+            return;
+          };
+          if (typeof cropper.getCroppedCanvas() === 'undefined') {
+            return;
+          }
+          this.props.onListener(Object.assign({}, {
+            name: this.state.form_data.name,
+            type: this.state.form_data.type,
+            aspect_ratio: this.state.form_data.aspect_ratio,
+            content: cropper.getCroppedCanvas().toDataURL()
+          }));
+          setTimeout(() => {
+            this.cropper_comp = null as any;
+            this.setState({
+              form_data: {},
+              image: null,
+              croppedImage: null
+            }, () => {
+              this.handleCloseModal();
+            })
+          }, 100)
+        } else {
+          this.props.onListener(Object.assign({}, {
+            name: this.state.form_data.name,
+            type: this.state.form_data.type,
+            aspect_ratio: null as any,
+            content: this.state.form_data.content
+          }));
+          setTimeout(() => {
+            this.cropper_comp = null as any;
+            this.setState({
+              form_data: {},
+              image: null,
+              croppedImage: null
+            }, () => {
+              this.handleCloseModal();
+            })
+          }, 100)
         }
-        this.props.onListener(Object.assign({}, {
-          name: this.state.form_data.name,
-          type: this.state.form_data.type,
-          aspect_ratio: this.state.form_data.aspect_ratio,
-          content: cropper.getCroppedCanvas().toDataURL()
-        }));
-        setTimeout(() => {
-          this.cropper_comp = null as any;
-          this.setState({
-            form_data: {},
-            image: null,
-            croppedImage: null
-          }, () => {
-            this.handleCloseModal();
-          })
-        }, 100)
         break;
     }
   }
@@ -95,7 +114,8 @@ export default class ImageUploadSelectModal extends BasicModal {
             form_data: {
               ...this.state.form_data,
               name: file.name,
-              type: file.type
+              type: file.type,
+              content: file
             }
           });
         };
@@ -178,33 +198,38 @@ export default class ImageUploadSelectModal extends BasicModal {
             <div className="form-label">Custom File Input</div>
             <input type="file" className="form-control" onChange={this.handleChange.bind(this, 'HANDLE_IMAGE_CHANGE', {})} />
           </div>
-          <div className="mb-3">
-            <div className="form-label">Aspect Ratio</div>
-            <select className="form-select" name="aspect_ratio" value={this.state.form_data.aspect_ratio} onChange={this.handleChange.bind(this, 'FORM_DATA', {})}>
-              <option value={"-1"}>Free</option>
-              <option value={"1/1"}>1:1</option>
-              <option value={"4/3"}>4:3</option>
-              <option value={"16/9"}>16:9</option>
-              <option value={"3/2"}>3:2</option>
-            </select>
-          </div>
-          <div className="mb-3">
-            <div className="form-label">Cropper</div>
-            <Cropper
-              ref={(cropper) => {
-                this.cropper_comp = cropper as any;
-              }}
-              src={this.state.image}
-              style={{ height: 400, width: "100%" }}
-              aspectRatio={this.evaluateExpression(this.state.form_data.aspect_ratio as any)}
-              guides={false}
-              crop={this.handleChange.bind(this, 'HANDLE_CROP', {})}
-            />
-          </div>
-          <div className="mb-3">
-            <div className="form-label">Result</div>
-            {this.state.croppedImage != null ? <img src={this.state.croppedImage} alt="Cropped" style={{ width: '100%' }} /> : null}
-          </div>
+          {this.state.form_data.type?.startsWith("image") ?
+            <div className="mb-3">
+              <div className="form-label">Aspect Ratio</div>
+              <select className="form-select" name="aspect_ratio" value={this.state.form_data.aspect_ratio} onChange={this.handleChange.bind(this, 'FORM_DATA', {})}>
+                <option value={"-1"}>Free</option>
+                <option value={"1/1"}>1:1</option>
+                <option value={"4/3"}>4:3</option>
+                <option value={"16/9"}>16:9</option>
+                <option value={"3/2"}>3:2</option>
+              </select>
+            </div> : null
+          }
+          {this.state.form_data.type?.startsWith("image") ?
+            <>
+              <div className="mb-3">
+                <div className="form-label">Cropper</div>
+                <Cropper
+                  ref={(cropper) => {
+                    this.cropper_comp = cropper as any;
+                  }}
+                  src={this.state.image}
+                  style={{ height: 400, width: "100%" }}
+                  aspectRatio={this.evaluateExpression(this.state.form_data.aspect_ratio as any)}
+                  guides={false}
+                  crop={this.handleChange.bind(this, 'HANDLE_CROP', {})}
+                />
+              </div>
+              <div className="mb-3">
+                <div className="form-label">Result</div>
+                {this.state.croppedImage != null ? <img src={this.state.croppedImage} alt="Cropped" style={{ width: '100%' }} /> : null}
+              </div>
+            </> : null}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={this.handleCloseModal}>
