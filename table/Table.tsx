@@ -1,6 +1,8 @@
 import { debounce, DebouncedFunc, isEqual } from "lodash";
 import React from "react";
 import MakeId from "../helper/MakeId";
+import { CampaignPayableServiceType, CampaignPayableType } from "../../services/CampaignPayableService";
+import LayoutBody from "../../layout/LayoutBody";
 
 export type TableState = {
   showForm: boolean,
@@ -16,12 +18,12 @@ export type TableState = {
 export type TablePropsInterface = {
   showForm?: boolean
   onChange?: { (e: any): void }
-  query?: any
+  query?: CampaignPayableServiceType
 }
 
-export default class Table extends React.Component {
-  setState<K extends never>(state: TableState | ((prevState: Readonly<{}>, props: Readonly<{}>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void {
-    return super.setState(state, callback);
+export default class Table extends LayoutBody {
+  setState<K extends never>(state: TableState | Pick<TableState, K>, callback?: (() => void) | undefined): void {
+    super.setState(state, callback);
   }
   declare state: Readonly<TableState>;
   declare props: Readonly<TablePropsInterface>;
