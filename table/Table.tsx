@@ -1,7 +1,6 @@
 import { debounce, DebouncedFunc, isEqual } from "lodash";
 import React from "react";
 import MakeId from "../helper/MakeId";
-import { CampaignPayableServiceType, CampaignPayableType } from "../../services/CampaignPayableService";
 import LayoutBody from "../../layout/LayoutBody";
 
 export type TableState = {
@@ -18,7 +17,7 @@ export type TableState = {
 export type TablePropsInterface = {
   showForm?: boolean
   onChange?: { (e: any): void }
-  query?: CampaignPayableServiceType
+  query?: any
 }
 
 export default class Table extends LayoutBody {
