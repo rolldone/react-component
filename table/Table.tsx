@@ -14,7 +14,7 @@ export type TableState = {
   }>
 }
 
-export type TablePropsInterface = {
+export type TableProps = {
   showForm?: boolean
   onChange?: { (e: any): void }
   query?: any
@@ -25,7 +25,7 @@ export default class Table extends LayoutBody {
     super.setState(state, callback);
   }
   declare state: Readonly<TableState>;
-  declare props: Readonly<TablePropsInterface>;
+  declare props: Readonly<TableProps>;
 
   pendingGet?: DebouncedFunc<any> | null = null;
   constructor(props: any) {
@@ -106,6 +106,13 @@ export default class Table extends LayoutBody {
     }
   }
 
+
+  renderFoot() {
+    return <>
+
+    </>
+  }
+
   render(): React.ReactNode {
     let randomString = MakeId(10);
     let { showForm, datas, columns } = this.state;
@@ -180,6 +187,7 @@ export default class Table extends LayoutBody {
               </table>
             </div>
           </div>
+          {this.renderFoot()}
         </div>
       </div>
     </>
