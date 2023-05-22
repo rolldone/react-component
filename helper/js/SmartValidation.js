@@ -2,6 +2,7 @@ import './StaticType';
 import _, { debounce } from 'lodash';
 import Validator from 'validatorjs';
 import en from 'validatorjs/src/lang/en';
+import $ from 'jquery';
 
 let theWIndow = window;
 
