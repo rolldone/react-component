@@ -8,8 +8,8 @@ export type PendingPromptDialogType = {
 
 const PendingPromptDialog = (props: {
   show?: Function
-  onInit: Function
-  onListener?: Function
+  onInit: { (self: PendingPromptDialogType): void }
+  onListener?: { (props?: any): void }
   submit_text?: string
   cancel_text?: string
   title_text?: string

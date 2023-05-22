@@ -18,6 +18,7 @@ export type SelectDatePickerProps = {
     }): void
   }
   className?: string
+  disabled?: boolean
 }
 
 export default class SelectDatePicker extends React.Component {
@@ -42,6 +43,7 @@ export default class SelectDatePicker extends React.Component {
   render(): React.ReactNode {
     return <>
       <ReactDatePicker
+        disabled={this.props.disabled || false}
         className={this.props.className}
         name={this.props.name}
         onChange={(date) => {

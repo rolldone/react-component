@@ -1,6 +1,7 @@
 import { debounce, DebouncedFunc, isEqual } from "lodash";
 import React from "react";
 import MakeId from "../helper/MakeId";
+import LayoutBody from "../../layout/LayoutBody";
 
 export type TableState = {
   showForm: boolean,
@@ -13,18 +14,18 @@ export type TableState = {
   }>
 }
 
-export type TablePropsInterface = {
+export type TableProps = {
   showForm?: boolean
   onChange?: { (e: any): void }
   query?: any
 }
 
-export default class Table extends React.Component {
-  setState<K extends never>(state: TableState | ((prevState: Readonly<{}>, props: Readonly<{}>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void {
-    return super.setState(state, callback);
+export default class Table extends LayoutBody {
+  setState<K extends never>(state: TableState | Pick<TableState, K>, callback?: (() => void) | undefined): void {
+    super.setState(state, callback);
   }
   declare state: Readonly<TableState>;
-  declare props: Readonly<TablePropsInterface>;
+  declare props: Readonly<TableProps>;
 
   pendingGet?: DebouncedFunc<any> | null = null;
   constructor(props: any) {
@@ -105,6 +106,13 @@ export default class Table extends React.Component {
     }
   }
 
+
+  renderFoot() {
+    return <>
+
+    </>
+  }
+
   render(): React.ReactNode {
     let randomString = MakeId(10);
     let { showForm, datas, columns } = this.state;
@@ -179,6 +187,7 @@ export default class Table extends React.Component {
               </table>
             </div>
           </div>
+          {this.renderFoot()}
         </div>
       </div>
     </>
