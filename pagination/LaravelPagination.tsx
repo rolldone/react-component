@@ -1,5 +1,4 @@
-import { ReactNode } from "react";
-import LayoutBody from "../../layout/LayoutBody";
+import React, { ReactNode } from "react";
 
 export type LaravelPaginationState = {
 }
@@ -22,7 +21,7 @@ export type LaravelPaginationProps = {
     limit_page?: number
 }
 
-export default class LaravelPagination extends LayoutBody {
+export default class LaravelPagination extends React.Component {
     setState<K extends never>(state: LaravelPaginationState | Pick<LaravelPaginationProps, K>, callback?: (() => void) | undefined): void {
         super.setState(state, callback);
     }

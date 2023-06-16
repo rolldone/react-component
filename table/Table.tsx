@@ -1,7 +1,6 @@
 import { debounce, DebouncedFunc, isEqual } from "lodash";
 import React from "react";
 import MakeId from "../helper/MakeId";
-import LayoutBody from "../../layout/LayoutBody";
 
 export type TableState = {
   showForm: boolean,
@@ -20,7 +19,7 @@ export type TableProps = {
   query?: any
 }
 
-export default class Table extends LayoutBody {
+export default class Table extends React.Component {
   setState<K extends never>(state: TableState | Pick<TableState, K>, callback?: (() => void) | undefined): void {
     super.setState(state, callback);
   }
