@@ -13,7 +13,8 @@ export default class ModuleLoad extends React.Component<PropsInterface, any> {
 
   componentDidMount(): void {
     // Create version of app v[n].[..n] with global var if null set altnative v1
-    let version = window.app_version;
+    let _window = window as any;
+    let version = _window.app_version;
     // Loop this.props.urls
     for (let i = 0; i < this.props.urls.length; i++) {
       // Check if the url have query string append it if no add new
