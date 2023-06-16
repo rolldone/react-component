@@ -1,5 +1,4 @@
-import { ReactNode } from "react";
-import LayoutBody from "../../layout/LayoutBody";
+import React, { ReactNode } from "react";
 
 export type ArrayWhere = Array<{
     column: string
@@ -15,7 +14,7 @@ export type ArrayFilterProps = {
     value?: ArrayWhere
 }
 
-export default class ArrayFilter extends LayoutBody {
+export default class ArrayFilter extends React.Component {
     setState<K extends never>(state: ArrayFilterState | Pick<ArrayFilterState, K>, callback?: (() => void) | undefined): void {
         super.setState(state, callback);
     }
