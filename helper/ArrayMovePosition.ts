@@ -1,13 +1,22 @@
-export default function ArrayMovePosition(arr: Array<any>, from: number, to: number) {
-  let _origin = Object.assign([], arr);
-  try {
-    if (to > arr.length - 1) {
-      return arr;
+function ArrayMovePosition<T>(
+    array: T[],
+    from_index: number,
+    new_index: number
+): T[] {
+    if (
+        from_index < 0 ||
+        from_index >= array.length ||
+        new_index < 0 ||
+        new_index >= array.length
+    ) {
+        // Invalid indices, return original array
+        return array;
     }
-    arr.splice(from, 1, arr.splice(to, 1, arr[from])[0])
-    return arr;
-  } catch (error) {
-    console.error("ArrayMovePosition - ex :: ", error);
-    return arr = _origin;
-  }
+
+    const newArray = [...array];
+    const [element] = newArray.splice(from_index, 1);
+    newArray.splice(new_index, 0, element);
+
+    return newArray;
 }
+export default ArrayMovePosition;
