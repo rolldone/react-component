@@ -60,7 +60,7 @@ function serializeCookieOptions(options: CookieOptions): string {
     expires = new Date(Date.now() + 60 * 60 * 1000),
     path = '/',
     domain = undefined,
-    sameSite = 'Strict',
+    sameSite = 'Lax',
     httpOnly = true,
     secure = false
   } = options;
